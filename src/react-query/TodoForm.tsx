@@ -1,32 +1,12 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRef } from "react";
-import { Todo } from "./hooks/useTodos";
-import axios from "axios";
+import useAddTodo from "./hooks/useAddTodo";
 
 const TodoForm = () => {
-  const queryClient = useQueryClient();
-
-  const addTodo = useMutation<Todo, Error, Todo>({
-    mutationFn: (todo: Todo) =>
-      axios
-        .post<Todo>("https://jsonplaceholder.typicode.com/todos", todo)
-        .then((res) => res.data),
-    onSuccess: (savedTodo, newTodo) => {
-      // Approach 1: invalidating the cache. Unfortunately this does not work with jsonplaceholder
-      /*
-      queryClient.invalidateQueries({
-        queryKey: ["todos"],
-      });
-      */
-      // Approach 2: Update the cache directly
-      queryClient.setQueryData<Todo[]>(["todos"], (todos) => [
-        newTodo,
-        ...(todos || []),
-      ]);
-      if (ref.current) ref.current.value = "";
-    },
-  });
   const ref = useRef<HTMLInputElement>(null);
+  const addTodo = useAddTodo(() => {
+    if (ref.current) ref.current.value = "";
+  });
+
   return (
     <>
       {addTodo.error && (
