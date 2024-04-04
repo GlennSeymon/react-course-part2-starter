@@ -1,4 +1,8 @@
+import { useContext } from "react";
+import TasksContext from "../state-management/contexts/tasksContexts";
+
 const NavBar = () => {
+  const {tasks} = useContext(TasksContext);
   return (
     <nav
       className="navbar navbar-expand-lg"
@@ -18,6 +22,11 @@ const NavBar = () => {
             <li className="nav-item">
               <a className="nav-link" href="#">
                 Users
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#">
+                Tasks: {tasks.length}
               </a>
             </li>
           </ul>
