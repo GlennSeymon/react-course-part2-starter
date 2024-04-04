@@ -1,8 +1,10 @@
 import { useContext } from "react";
 import TasksContext from "../state-management/contexts/tasksContexts";
+import AuthContext from "../state-management/contexts/authContext";
 
 const NavBar = () => {
   const {tasks} = useContext(TasksContext);
+  const {user} = useContext(AuthContext);
   return (
     <nav
       className="navbar navbar-expand-lg"
@@ -27,6 +29,11 @@ const NavBar = () => {
             <li className="nav-item">
               <a className="nav-link" href="#">
                 Tasks: {tasks.length}
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#">
+                User: {user}
               </a>
             </li>
           </ul>
